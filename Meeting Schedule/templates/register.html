@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Include FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('your-image.jpg') no-repeat center center fixed;
+            background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            backdrop-filter: blur(10px);
+            background-color: rgba(128, 0, 128, 0.5); /* Purple blur */
+            padding: 20px;
+        }
+
+        /* Container Styling (Center the form) */
+        .container {
+            background-color: #fff; /* White background for form */
+            padding: 20px 30px;  /* Adjusted padding */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #333;
+            max-height: 80vh; /* Restrict container height */
+            overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #6a4c9c;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        /* Exit Icon */
+        .exit-icon {
+            position: absolute;
+            top: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            left: 15px;
+        }
+
+        .exit-icon:hover {
+            color: #45a049;
+        }
+
+        /* Form Fields Styling */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px; /* Increased padding for better spacing */
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        button {
+            background-color: #6a4c9c;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Grid Layout for the Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        .form-grid label {
+            margin-bottom: 5px;
+        }
+
+        /* Profile Picture Styling */
+        .profile-picture {
+            width: 70px;
+            height: 35px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border: 2px solid #fff;
+            text-transform: uppercase;
+        }
+
+        /* Footer Styling */
+        footer {
+            width: 100%;
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        footer a {
+            color: #45a049;
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            button {
+                padding: 10px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Exit Icon -->
+        <i class="fas fa-times exit-icon" title="Exit" onclick="window.history.back();"></i>
+    
+        <h1>Registration</h1>
+        <form id="registerForm" method="POST" enctype="multipart/form-data">
+            <!-- Profile Picture -->
+            <div class="profile-picture" id="profilePic">
+                <span id="initials"></span>
+            </div>
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" onchange="handleProfileImageChange()">
+    
+            <!-- Name and Surname in a 2-column grid -->
+            <div class="form-grid">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+                <div>
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surname" name="surname" required placeholder="Enter your surname">
+                </div>
+            </div>
+    
+            <!-- Country and Cellphone in a 2-column grid -->
+            <div class="form-grid">
+                <div>
+                    <label for="country">Country of Residence:</label>
+                    <select id="country" name="country" required>
+                        <option value="" disabled selected>Select your country</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="cellphone">Cellphone Number:</label>
+                    <input type="tel" id="cellphone" name="cellphone" required placeholder="Enter your cellphone number">
+                </div>
+            </div>
+    
+            <!-- Student Number and Email in a 2-column grid -->
+            <div class="form-grid">
+                <div>
+                    <label for="student_number">Student Number:</label>
+                    <input type="text" id="student_number" name="student_number" required placeholder="Enter your student number">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+            </div>
+    
+            <!-- Password and Role in a 2-column grid -->
+            <div class="form-grid">
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <div>
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="Student">Student</option>
+                        <option value="Lecturer">Lecturer</option>
+                    </select>
+                </div>
+            </div>
+    
+            <button type="submit">Register</button>
+        </form>
+    
+    
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; <span id="year"></span> All Rights Reserved | Website by <a href="#">FSolution Tech</a></p>
+    </footer>
+
+    <script>
+        // Function to handle the profile image change
+        function handleProfileImageChange() {
+            const file = document.getElementById('profileImage').files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profilePic = document.getElementById('profilePic');
+                profilePic.style.backgroundImage = `url(${e.target.result})`;
+                profilePic.innerHTML = '';  // Clear initials if an image is uploaded
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Automatically set initials if no profile picture is uploaded
+        document.getElementById('name').addEventListener('input', setInitials);
+        document.getElementById('surname').addEventListener('input', setInitials);
+
+        function setInitials() {
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const initials = (name[0] || '') + (surname[0] || '');
+            document.getElementById('initials').textContent = initials.toUpperCase();
+        }
+
+        // Set the current year in the footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+          // Function to show flash message as a pop-up
+        window.onload = function() {
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        if (category === 'success') {
+                            alert(message); // Success message pop-up
+                        } else if (category === 'danger') {
+                            alert("Error: " + message); // Error message pop-up
+                        }
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        };
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Meeting</title>
+    <!-- Include FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('your-image.jpg') no-repeat center center fixed; /* Optional background image */
+            background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            backdrop-filter: blur(10px); /* Blur the background */
+            background-color: rgba(128, 0, 128, 0.5); /* Purple hue with opacity */
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: #f8f8f8; /* Soft grey background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Heading */
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Profile Icon */
+        .profile-icon,
+        .exit-icon {
+            position: absolute;
+            top: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #fff;
+            transition: 0.3s ease;
+        }
+
+        /* Profile Icon Position (Top Right) */
+        .profile-icon {
+            right: 15px;
+        }
+
+        /* Exit Icon Position (Top Left) */
+        .exit-icon {
+            left: 15px;
+        }
+
+        /* Hover Effect for Icons */
+        .icon:hover {
+            color: #4CAF50; /* Green color on hover */
+        }
+
+        /* Form Elements Styling */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        select, input[type="text"], input[type="datetime-local"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        /* Input Focus State */
+        select:focus, input[type="text"]:focus, input[type="datetime-local"]:focus, textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        textarea {
+            height: 150px; /* Increased height for meeting description */
+            resize: vertical;
+        }
+
+        /* Submit Button Styling */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            button {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Profile Icon -->
+        <i class="fas fa-user profile-icon icon" title="Profile"></i>
+
+        <!-- Exit Icon -->
+        <i class="fas fa-times exit-icon icon" title="Exit" onclick="window.history.back();"></i>
+
+        <h2>Schedule a Meeting with Lecturer</h2>
+        
+        <form method="POST">
+            <!-- Lecturer Dropdown -->
+            <label for="lecturer_name">Lecturer:</label>
+            <select name="lecturer_id" id="lecturer_name" required>
+                <option value="" disabled selected>-- Choose a Lecturer --</option>
+                {% for lecturer in lecturers %}
+                    <option value="{{ lecturer['id'] }}">{{ lecturer['name'] }}</option>
+                {% endfor %}
+            </select>
+            
+            <!-- Date and Time Picker -->
+            <label for="date_time">Meeting Time:</label>
+            <input type="datetime-local" name="date_time" id="date_time" required>
+            
+            <!-- Meeting Title -->
+            <label for="title">Meeting Title:</label>
+            <input type="text" name="title" id="title" required placeholder="Enter a short title for your meeting">
+            
+            <!-- Meeting Description -->
+            <label for="meeting_description">Meeting Description:</label>
+            <textarea name="meeting_description" id="meeting_description" required placeholder="Provide a detailed description of the meeting"></textarea>
+            
+            <!-- Submit Button -->
+            <button type="submit">Schedule Meeting</button>
+        </form>
+    </div>
+    // Function to show flash message as a pop-up
+    <script>
+    window.onload = function() {
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    if (category === 'success') {
+                        alert(message); // Success message pop-up
+                    } else if (category === 'danger') {
+                        alert("Error: " + message); // Error message pop-up
+                    }
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    };
+</script>
+
+</body>
+</html>

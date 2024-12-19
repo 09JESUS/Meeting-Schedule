@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Basic styling to remove margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full screen background with blur effect */
+        body{
+            font-family: Arial, sans-serif;
+            background: url('your-image.jpg') no-repeat center center fixed; /* Background image (optional) */
+            background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            backdrop-filter: blur(10px); /* Blur the background */
+            background-color: rgba(128, 0, 128, 0.5); /* Purple hue with opacity */
+        }
+
+        .blur-background {
+            background-image: url('your-image.jpg'); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            position: absolute;
+            width: 100%;
+            filter: blur(10px);
+            z-index: 0;
+        }
+
+        /* White container for login form */
+        .login-container {
+            background-color: white;
+            padding: 40px 40px 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Title Styling */
+        h1 {
+            color: #6a4c9c;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #6a4c9c;
+            font-size: 18px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* Styling for form labels, inputs, and button */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #6a4c9c;
+        }
+
+        /* Radio buttons styling */
+        .role-radio {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .role-radio label {
+            font-weight: 500;
+        }
+
+        button {
+            padding: 14px;
+            background-color: #6a4c9c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #7b3f97; /* Darker purple on hover */
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        /* Responsive styling */
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blur-background"></div>
+    <div class="login-container">
+        <h1>Welcome Back!</h1>
+        <p>We're excited to have you with us. Let's get started!</p>
+        <form method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="role-radio">
+                <div>
+                    <input type="radio" id="student" name="role" value="student" required>
+                    <label for="student">Student</label>
+                </div>
+                <div>
+                    <input type="radio" id="lecturer" name="role" value="lecturer">
+                    <label for="lecturer">Lecturer</label>
+                </div>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+    // Function to show flash message as a pop-up
+    window.onload = function() {
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    if (category == 'success') {
+                        alert(message); // Success message pop-up
+                    } else if (category == 'danger') {
+                        alert("Error: " + message); // Error message pop-up
+                    }
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    };
+</script>
+</body>
+</html>
